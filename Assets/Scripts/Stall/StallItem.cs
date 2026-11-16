@@ -39,9 +39,9 @@ public class StallItem : MonoBehaviour
 
     public void SellPlant()
     {
-        Debug.Log("Sold 1 - " + plant.plantName);
+        Debug.Log("Sold 1 - " + plant.PlantName);
         fm.RemovePlant(plant, 1);
-        fm.Transaction(plant.sellPrice);
+        fm.Transaction(plant.SellPrice);
         quantity -= 1; 
         inputText.text = ""+ quantity;
 
@@ -62,8 +62,8 @@ public class StallItem : MonoBehaviour
             return;
 
         plant = getPlant;
-        icon.sprite = plant.icon;
-        nameTxt.text = plant.plantName;
+        icon.sprite = plant.Icon;
+        nameTxt.text = plant.PlantName;
     }
 
     public void GetQuantity()
@@ -99,7 +99,7 @@ public class StallItem : MonoBehaviour
     public void RemoveStall()
     {
         isActive = false;
-        Debug.Log("Removed " + plant.plantName);
+        Debug.Log("Removed " + plant.PlantName);
         plant = null;
         quantity = 0;
         percent = 0;

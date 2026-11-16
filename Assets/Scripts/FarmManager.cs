@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class FarmManager : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class FarmManager : MonoBehaviour
     //public PlantFoodItem selectPlantFood;
     public MarketManager marketManager;
     public OrderManager orderManager;
-    public BagManager bag;
 
     public int money = 100;
     public int level = 1;
@@ -30,8 +30,22 @@ public class FarmManager : MonoBehaviour
     public Sprite normalButton;
     public Sprite selectedButton;
 
-    public List<Plant> plantInventory = new List<Plant>(); //Change to dictionary with plant and int quantity later
-    //public Dictionary<Plant, int> plantInventory = new Dictionary<Plant, int>();
+    //public List<Plant> plantInventory = new List<Plant>(); //Change to dictionary with plant and int quantity later
+    public Dictionary<Plant, int> plantInventory = new Dictionary<Plant, int>();
+
+    public event Action<Plant, int> OnInventoryChanged;
+
+    public static FarmManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     void Start()
     {
@@ -75,6 +89,11 @@ public class FarmManager : MonoBehaviour
             isBoosting = true;
         }
     }*/
+
+    public int GetAmount(Plant plant)
+    {
+        return plantInventory.TryGetValue(plant, out int amount) ? amount : 0;
+    }
 
     public void SelectTool(int toolNumber)
     {
@@ -151,55 +170,30 @@ public class FarmManager : MonoBehaviour
         //TODO:
     }
 
-    public void RemovePlant(Plant plant, int quantity)
+    public void RemovePlant(Plant plant, int amount)
     {
-        for(int i = 0; i < plantInventory.Count; i++)
-        {
-            if(plantInventory[i].plantName == plant.plantName)
-            {
-                plantInventory[i].quantity -= quantity;
-                marketManager.UpdateMarket(i, plantInventory[i].quantity);
-                bag.UpdateMarket(i, plantInventory[i].quantity);
+        if (amount <= 0) return;
 
-                if(plantInventory[i].quantity <= 0){
-                    plantInventory.RemoveAt(i);
-                    marketManager.RemoveFromMarket(plant.plantName);
-                    bag.RemoveFromMarket(plant.plantName);
-                }
-            }
-        }
+        int newAmount = Mathf.Max(0, GetAmount(plant) - amount);
 
-        orderManager.CheckOrders();
+        if (newAmount == 0)
+            plantInventory.Remove(plant);
+        else
+            plantInventory[plant] = newAmount;
+
+        OnInventoryChanged?.Invoke(plant, newAmount);
+        //orderManager.CheckOrders();
     }
 
-    public void AddPlant(Plant plant, int quantity)
+    public void AddPlant(Plant plant, int amount)
     {
-        if (plantInventory.Count != 0)
-        {
-            for(int i = 0; i < plantInventory.Count; i++)
-            {
-                if(plantInventory[i].plantName == plant.plantName)
-                {
-                    plantInventory[i].quantity += quantity;
-                    marketManager.UpdateMarket(i,plantInventory[i].quantity);
-                    bag.UpdateMarket(i,plantInventory[i].quantity);
-                    orderManager.CheckOrders();
-                    return;
-                }
-            }
-                marketManager.AddToMarket(plant);
-                bag.AddToMarket(plant);
-                plantInventory.Add(plant);
+        if (amount <= 0) return;
 
-        }else if (plantInventory.Count == 0)
-        {
-            marketManager.AddToMarket(plant);
-            bag.AddToMarket(plant);
-            plantInventory.Add(plant);     
-        }
-        
-        orderManager.CheckOrders();
-       
-    } 
+        int newAmount = GetAmount(plant) + amount;
+        plantInventory[plant] = newAmount;
+
+        OnInventoryChanged?.Invoke(plant, newAmount);
+        //orderManager.CheckOrders();
+    }
 }
 

@@ -7,7 +7,6 @@ public class MarketItem : MonoBehaviour
 {
     public Plant plant;
 
-    private FarmManager fm;
     public StallManager sm;
     public MarketManager mm;
     public StallItem stallItem;
@@ -23,8 +22,6 @@ public class MarketItem : MonoBehaviour
 
     void Awake()
     {
-        fm = FindObjectOfType<FarmManager>();
-
         InitializeUI();
     }
 
@@ -49,24 +46,24 @@ public class MarketItem : MonoBehaviour
 
     public void SellPlant()
     {
-        Debug.Log("Sold 1 - " + plant.plantName);
-        fm.RemovePlant(plant, 1);
-        fm.Transaction(plant.sellPrice);
+        Debug.Log("Sold 1 - " + plant.PlantName);
+        FarmManager.Instance.RemovePlant(plant, 1);
+        FarmManager.Instance.Transaction(plant.SellPrice);
     }
 
     public void SellAllPlants()
     {
-        Debug.Log("Sold All " + plant.plantName);
-        fm.Transaction(plant.sellPrice * plant.quantity);
-        fm.RemovePlant(plant, plant.quantity);
+        Debug.Log("Sold All " + plant.PlantName);
+        FarmManager.Instance.Transaction(plant.SellPrice * FarmManager.Instance.GetAmount(plant));
+        FarmManager.Instance.RemovePlant(plant, FarmManager.Instance.GetAmount(plant));
         
     }
 
     void InitializeUI()
     {
-        nameTxt.text = plant.plantName;
-        priceTxt.text = "$" + plant.sellPrice;
-        quantityTxt.text = "" + plant.quantity;
-        icon.sprite = plant.icon;
+        nameTxt.text = plant.PlantName;
+        priceTxt.text = "$" + plant.SellPrice;
+        quantityTxt.text = "" + FarmManager.Instance.GetAmount(plant);
+        icon.sprite = plant.Icon;
     }
 }

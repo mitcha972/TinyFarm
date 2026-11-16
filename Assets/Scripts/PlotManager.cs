@@ -13,6 +13,8 @@ public class PlotManager : MonoBehaviour
     private SpriteRenderer plantSpriteRenderer;
     private SpriteRenderer plotSpriteRenderer;
 
+    [SerializeField] private Transform canvasTransform;
+
     [Header("Sprites")]
     public Sprite dryPlotSprite; //DryPlot 
     public Sprite notRakedSprite; //Not Raked Plot
@@ -64,20 +66,20 @@ public class PlotManager : MonoBehaviour
         {
             growTimer -= growSpeed*Time.deltaTime;
 
-            if (growTimer < 0 && plantStage<selectedPlant.plantStages.Length-1)
+            if (growTimer < 0 && plantStage<selectedPlant.PlantStages.Length-1)
             {
-                growTimer = selectedPlant.timeBtwStages;
+                growTimer = selectedPlant.TimeBtwStages;
                 plantStage++;
                 UpdatePlant();
             }
         }
     }
 
-    private void OMD()
+    private void MouseHover()
     {
         if (!isPlanted)
         {
-            if(fm.isPlanting && fm.selectPlant.plant.buyPrice <= fm.money && isBought)
+            if(fm.isPlanting && fm.selectPlant.plant.BuyPrice <= fm.money && isBought)
             {
                 Plant(fm.selectPlant.plant);
 
@@ -87,14 +89,14 @@ public class PlotManager : MonoBehaviour
 /*
         if (!isFertalized)
         {
-            if(fm.isBoosting && fm.selectPlantFood.plantFood.buyPrice <= fm.money && isBought)
+            if(fm.isBoosting && fm.selectPlantFood.plantFood.BuyPrice <= fm.money && isBought)
             {
                 //isDry = false;
                 //plot.sprite = healthyPlotSprite;
                 if (isPlanted) UpdatePlant();
                 isFertalized = true;
                 //particle.SetActive(true);
-                fm.Transaction(-fm.selectPlantFood.plantFood.buyPrice);
+                fm.Transaction(-fm.selectPlantFood.plantFood.BuyPrice);
             }
         }
 */
@@ -113,10 +115,10 @@ public class PlotManager : MonoBehaviour
                 case 2:                    
                     if (isPlanted)
                     {
-                        if (plantStage == selectedPlant.plantStages.Length - 1 && !fm.isPlanting)
+                        if (plantStage == selectedPlant.PlantStages.Length - 1 && !fm.isPlanting)
                         {
-                            Harvest(new Plant(selectedPlant.plantName,selectedPlant.sellPrice,selectedPlant.icon));
-                            //fm.AddPlant(new Plant(selectedPlant.plantName,selectedPlant.sellPrice,selectedPlant.icon),1);   
+                            Harvest(selectedPlant);
+                            //fm.AddPlant(new Plant(selectedPlant.PlantName,selectedPlant.SellPrice,selectedPlant.Icon),1);   
                         }
                     }
                     break;
@@ -139,7 +141,7 @@ public class PlotManager : MonoBehaviour
         
         if (fm.isPlanting)
         {
-            if(isPlanted || fm.selectPlant.plant.buyPrice > fm.money || !isBought)
+            if(isPlanted || fm.selectPlant.plant.BuyPrice > fm.money || !isBought)
             {
                 //can't buy
                 plotSpriteRenderer.color = unavailableColor;
@@ -178,7 +180,7 @@ public class PlotManager : MonoBehaviour
 
         if((Input.GetKey(KeyCode.Mouse0)))
         {
-            OMD();
+            OnMouseOver();
         }
     }
 
@@ -201,12 +203,12 @@ public class PlotManager : MonoBehaviour
         plotSpriteRenderer.sprite = dryPlotSprite;
         growSpeed = 1f; 
 
-        //DroppedPlant droppedplant = Instantiate(droppedPlant, new Vector3(transform.position.x + (Random.Range(-5,5)), transform.position.y, 0), Quaternion.identity).GetComponent<DroppedPlant>();
-        DroppedPlant droppedplant = Instantiate(droppedPlant).GetComponent<DroppedPlant>();  
-        droppedplant.transform.SetParent(GameObject.Find("Canvas").transform);
-        
-        //droppedplant.GameObject.transform.position = new Vector2
-        droppedplant.plant = newplant;
+        DroppedPlant droppedplant = Instantiate(droppedPlant, canvasTransform).GetComponent<DroppedPlant>();
+
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        droppedplant.transform.position = screenPos;
+
+        droppedplant.Setup(newplant);
     }
 
     void Plant(Plant newPlant)
@@ -214,11 +216,11 @@ public class PlotManager : MonoBehaviour
         selectedPlant = newPlant;
         isPlanted = true;
 
-        fm.Transaction(-selectedPlant.buyPrice);
+        fm.Transaction(-selectedPlant.BuyPrice);
 
         plantStage = 0;
         UpdatePlant();
-        growTimer = selectedPlant.timeBtwStages;
+        growTimer = selectedPlant.TimeBtwStages;
         plantSpriteRenderer.gameObject.SetActive(true);
     }
 
@@ -226,11 +228,11 @@ public class PlotManager : MonoBehaviour
     {
         if (isDry)
         {
-            plantSpriteRenderer.sprite = selectedPlant.dryPlanted;
+            plantSpriteRenderer.sprite = selectedPlant.DryPlanted;
         }
         else
         {
-            plantSpriteRenderer.sprite = selectedPlant.plantStages[plantStage];
+            plantSpriteRenderer.sprite = selectedPlant.PlantStages[plantStage];
         }
     }
 }

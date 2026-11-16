@@ -4,48 +4,43 @@ using UnityEngine;
 
 public class BagManager : MonoBehaviour
 {
-    public GameObject bagItem;
-    [SerializeField] private FarmManager fm;
+    [SerializeField] private BagItem bagItemPrefab;
+    [SerializeField] private Transform contentArea;
+    
+    private readonly Dictionary<Plant, BagItem> items = new Dictionary<Plant, BagItem>();
 
-    private List<BagItem> bagItems = new List<BagItem>();
-
-    private void Awake()
+    private void Start()
     {
-        /*
-        foreach (Plant plant in fm.plantInventory)
+        FarmManager.Instance.OnInventoryChanged += Refresh;
+    }
+
+    private void Refresh(Plant plant, int amount)
+    {
+        if (items.ContainsKey(plant))
         {
-            BagItem newPlant = Instantiate(bagItem, transform).GetComponent<BagItem>();
-            newPlant.plant = plant;
-            bagItems.Add(newPlant);
-        }
-        */
-    }
-
-    private void PopulateBag()
-    {
-        
-    }
-
-    public void AddToMarket(Plant plant)
-    {
-        BagItem newPlant = Instantiate(bagItem, transform).GetComponent<BagItem>();
-        newPlant.plant = plant;
-        bagItems.Add(newPlant);
-    }
-
-    public void RemoveFromMarket(string plantName)
-    {
-        for(int i = 0; i< bagItems.Count; i++)
-            if(bagItems[i].plant.plantName == plantName){
-                BagItem I = bagItems[i];
-                bagItems.Remove(I);
-                Destroy(I.gameObject);
+            if (amount <= 0)
+            {
+                Destroy(items[plant].gameObject);
+                items.Remove(plant);
             }
+            else
+            {
+                items[plant].SetAmount(amount);
+            }
+        }
+        else
+        {
+            if (amount > 0)
+            {
+                BagItem newItem = Instantiate(bagItemPrefab, contentArea);
+                newItem.Setup(plant, amount);
+                items.Add(plant, newItem);
+            }
+        }
     }
 
-    public void UpdateMarket(int i, int quant)
+    private void OnDestroy()
     {
-        bagItems[i].quantity = quant;
-        bagItems[i].quantityTxt.text = "" + quant;
+        FarmManager.Instance.OnInventoryChanged -= Refresh;
     }
 }

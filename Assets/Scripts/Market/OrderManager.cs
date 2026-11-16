@@ -14,6 +14,8 @@ public class OrderManager : MonoBehaviour
 
     private List<OrderItem> orderItems = new List<OrderItem>();
 
+    [SerializeField] private Transform contentArea;
+
     private void Awake()
     {
         CreateOrders(); 
@@ -27,7 +29,7 @@ public class OrderManager : MonoBehaviour
             //Pick Random Number of Items In Order
             //int ranO = Random.Range(1,3);
 
-            OrderItem newOrder = Instantiate(orderItem, transform).GetComponent<OrderItem>();
+            OrderItem newOrder = Instantiate(orderItem, contentArea).GetComponent<OrderItem>();
 
             //Precent Increase for Order
             newOrder.precent = Random.Range(-10,16);
@@ -41,14 +43,9 @@ public class OrderManager : MonoBehaviour
                 if(ran != picked)
                 {
                     picked = ran;
+                    Plant plant = pm.plantObjects[ran];
 
-                    //Pick Random Order Amount
-                    //int ranA = Random.Range(1,5);
-
-                    Plant p = pm.plantObjects[ran];
-                    Plant orderPlant = new Plant(p.plantName, p.sellPrice, p.icon);
-
-                    newOrder.orders.Add(new Order(orderPlant,Random.Range(1,5)));//Pick Random Order Amount
+                    newOrder.orders.Add(new Order(plant,Random.Range(1,5)));//Pick Random Order Amount
                     orderItems.Add(newOrder);
                 }
             }
@@ -73,15 +70,3 @@ public class OrderManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class Order
-{
-    public Plant plant;
-    public int quantity;
-
-    public Order(Plant p, int quant)
-    {
-        plant = p;
-        quantity = quant;
-    }    
-}

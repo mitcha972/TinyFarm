@@ -11,12 +11,14 @@ public class MarketManager : MonoBehaviour
 
     List<MarketItem> marketItems = new List<MarketItem>();
 
+    [SerializeField] private Transform contentArea;
+
     private void Awake()
     {
         /*
         foreach (Plant plant in fm.plantInventory)
         {
-            MarketItem newPlant = Instantiate(marketItem, transform).GetComponent<MarketItem>();
+            MarketItem newPlant = Instantiate(marketItem, contentArea).GetComponent<MarketItem>();
             newPlant.plant = plant;
             marketItems.Add(newPlant);
         }
@@ -25,7 +27,7 @@ public class MarketManager : MonoBehaviour
 
     public void AddToMarket(Plant plant)
     {
-        MarketItem newPlant = Instantiate(marketItem, transform).GetComponent<MarketItem>();
+        MarketItem newPlant = Instantiate(marketItem, contentArea).GetComponent<MarketItem>();
         newPlant.plant = plant;
         newPlant.mm = mm;
         newPlant.sm = sm;
@@ -35,7 +37,7 @@ public class MarketManager : MonoBehaviour
     public void RemoveFromMarket(string plantName)
     {
         for(int i = 0; i< marketItems.Count; i++)
-            if(marketItems[i].plant.plantName == plantName){
+            if(marketItems[i].plant.PlantName == plantName){
                 MarketItem I = marketItems[i];
                 marketItems.Remove(I);
                 Destroy(I.gameObject);

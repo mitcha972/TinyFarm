@@ -24,14 +24,14 @@ public class PlantItem : MonoBehaviour
 
     public void BuyPlant()
     {
-        Debug.Log("Selected " + plant.plantName);
+        Debug.Log("Selected " + plant.PlantName);
         fm.SelectPlant(this);
     }
 
     void InitializeUI()
     {
-        nameTxt.text = plant.plantName;
-        priceTxt.text = "$" + plant.buyPrice;
-        icon.sprite = plant.icon;
+        nameTxt.text = plant.PlantName;
+        priceTxt.text = "$" + plant.BuyPrice;
+        icon.sprite = plant.Icon;
     }
 }

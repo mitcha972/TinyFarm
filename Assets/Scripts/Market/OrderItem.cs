@@ -21,7 +21,7 @@ public class OrderItem : MonoBehaviour
     private int price; 
     public int precent;
 
-    public List<Order> orders;   
+    public List<Order> orders;
 
     void Start()
     {
@@ -32,8 +32,10 @@ public class OrderItem : MonoBehaviour
 
     public void CheckOrderItem()
     {  
+        if (orders.Count == 0) return;
+        
         for(int i = 0; i < orders.Count; i++){      
-            if(PlantQuantity(orders[i].plant) >= orders[i].quantity)
+            if(fm.GetAmount(orders[i].plant) >= orders[i].quantity)
             {
                 orderSlot.GetChild(i).gameObject.GetComponent<RecipeObj>().quantityTxt.color  = Color.green;  
             }
@@ -47,7 +49,7 @@ public class OrderItem : MonoBehaviour
     public void CheckOrder()
     {  
         for(int i = 0; i < orders.Count; i++){      
-            if(PlantQuantity(orders[i].plant) < orders[i].quantity){
+            if(fm.GetAmount(orders[i].plant) < orders[i].quantity){
                 Debug.Log("noFire");
                 return;                
             }
@@ -61,21 +63,11 @@ public class OrderItem : MonoBehaviour
         Sell();        
     }
 
-    private int PlantQuantity(Plant plant)
-    {
-        for(int i = 0; i < fm.plantInventory.Count; i++){
-            if(fm.plantInventory[i].plantName == plant.plantName)
-                return fm.plantInventory[i].quantity;
-        }
-
-        return 0;
-    }   
-
     public void Sell()
     { 
         for(int i = 0; i < orders.Count; i++)
         {
-            Debug.Log("Sold " + orders[i].plant.plantName);
+            Debug.Log("Sold " + orders[i].plant.PlantName);
             fm.RemovePlant(orders[i].plant, orders[i].quantity);
         }
 
@@ -88,9 +80,9 @@ public class OrderItem : MonoBehaviour
         {
             //RecipeObj newR = Instantiate(recipeObj, transform).GetComponent<RecipeObj>();
             //newR.transform.SetParent(orderSlot);
-            orderSlot.GetChild(i).gameObject.GetComponent<RecipeObj>().InitializeUI(orders[i].quantity,orders[i].plant.icon);
+            orderSlot.GetChild(i).gameObject.GetComponent<RecipeObj>().InitializeUI(orders[i].quantity,orders[i].plant.Icon);
 
-            price += orders[i].plant.sellPrice*orders[i].quantity;
+            price += orders[i].plant.SellPrice*orders[i].quantity;
         }
 
         float p = price;

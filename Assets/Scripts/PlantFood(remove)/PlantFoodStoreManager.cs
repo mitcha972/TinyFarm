@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlantFoodStoreManager : MonoBehaviour
 {
     public GameObject plantFoodItem;
+    [SerializeField] private Transform contentArea;
     List<PlantFoodObject> plantFoodObjects = new List<PlantFoodObject>();
-
+    
     private void Awake()
     {
         //Assets/Resources/PlantFoods
@@ -20,7 +21,7 @@ public class PlantFoodStoreManager : MonoBehaviour
 
         foreach (var plantFood in plantFoodObjects)
         {
-            PlantFoodItem newPlantFood = Instantiate(plantFoodItem, transform).GetComponent<PlantFoodItem>();
+            PlantFoodItem newPlantFood = Instantiate(plantFoodItem, contentArea).GetComponent<PlantFoodItem>();
             newPlantFood.plantFood = plantFood;
         }
     }

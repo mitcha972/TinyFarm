@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class RecipeManager : MonoBehaviour
 {
-    public GameObject recipeItem;
+    [SerializeField] private GameObject recipeItem;
     [SerializeField] private FarmManager fm;
+
+    [SerializeField] private Transform contentArea;
 
    public List<RecipeObject> recipeObjects = new List<RecipeObject>();
 
@@ -22,7 +24,7 @@ public class RecipeManager : MonoBehaviour
 
         foreach (var recipe in recipeObjects)
         {
-            RecipeItem newRecipe = Instantiate(recipeItem, transform).GetComponent<RecipeItem>();
+            RecipeItem newRecipe = Instantiate(recipeItem, contentArea).GetComponent<RecipeItem>();
             newRecipe.orders = recipe.orders;
             newRecipe.recipeName = recipe.recipeName;
             newRecipe.bakeTime = recipe.bakeTime;

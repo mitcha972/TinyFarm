@@ -195,6 +195,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -468,6 +472,7 @@ RectTransform:
   - {fileID: 1475384810}
   - {fileID: 1270691513}
   - {fileID: 1211824570}
+  - {fileID: 1382542081}
   m_Father: {fileID: 918248819}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -612,6 +617,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1339,6 +1348,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1440,7 +1453,6 @@ GameObject:
   - component: {fileID: 361099877}
   - component: {fileID: 361099876}
   - component: {fileID: 361099875}
-  - component: {fileID: 361099874}
   m_Layer: 5
   m_Name: Orders
   m_TagString: Untagged
@@ -1448,23 +1460,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &361099874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361099873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2bc15fb6764a664fb7906db4e5372de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orderItem: {fileID: 3552520240309311823, guid: 5f7088ce1beead14b9e23f98493ec559, type: 3}
-  fm: {fileID: 1993472548}
-  pm: {fileID: 1159069670}
-  filledColor: {r: 0, g: 0, b: 0, a: 0}
-  unfilledColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &361099875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1798,7 +1793,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -7.9, y: 0}
+  m_AnchoredPosition: {x: -7.9000015, y: 0}
   m_SizeDelta: {x: 31.1854, y: 19.0478}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &402576611
@@ -1940,7 +1935,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 446429182}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StallManager, Assembly-CSharp
         m_MethodName: CancleStall
         m_Mode: 1
@@ -2268,7 +2263,6 @@ GameObject:
   - component: {fileID: 446429180}
   - component: {fileID: 446429183}
   - component: {fileID: 446429181}
-  - component: {fileID: 446429182}
   m_Layer: 5
   m_Name: Stalls
   m_TagString: Untagged
@@ -2311,24 +2305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &446429182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446429179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca7c9fdce5f6ec4fa694c8c96f74d85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stallItem: {fileID: 3552520240309311823, guid: 70ded7f9cd348c843a340974a6ee991e, type: 3}
-  clickImage: {fileID: 415052861}
-  mm: {fileID: 1920164617}
-  selectedStall: {fileID: 0}
-  fm: {fileID: 1993472548}
-  speed: 1
 --- !u!114 &446429183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2531,6 +2507,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2839,6 +2819,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2925,6 +2909,162 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650950688}
   m_CullTransparentMesh: 1
+--- !u!1 &659210103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 659210111}
+  - component: {fileID: 659210110}
+  - component: {fileID: 659210109}
+  - component: {fileID: 659210108}
+  - component: {fileID: 659210107}
+  - component: {fileID: 659210106}
+  - component: {fileID: 659210105}
+  - component: {fileID: 659210104}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &659210104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38514336aa980224c896bcf707e11eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marketItem: {fileID: 3552520240309311823, guid: 319df90a01ae6a940b0d35165d9ee1e3, type: 3}
+  fm: {fileID: 1993472548}
+  sm: {fileID: 659210107}
+  mm: {fileID: 659210104}
+  contentArea: {fileID: 1920164621}
+--- !u!114 &659210105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3d7c4d3e7024a4fb75066085d587e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantFoodItem: {fileID: 3552520240309311823, guid: 0543d0e186dd904438c8ef3d8b65aa77, type: 3}
+  contentArea: {fileID: 2117410806}
+--- !u!114 &659210106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935badaccbcc5e74cb34b4a7fbb1fbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipeItem: {fileID: 3552520240309311823, guid: c299a24db1b32e24bbb0a34f66011b23, type: 3}
+  fm: {fileID: 1993472548}
+  contentArea: {fileID: 1053958054}
+  recipeObjects:
+  - {fileID: 11400000, guid: 29a2b29a112aa1b42bdd19fabc7cbf70, type: 2}
+--- !u!114 &659210107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca7c9fdce5f6ec4fa694c8c96f74d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stallItem: {fileID: 3552520240309311823, guid: 70ded7f9cd348c843a340974a6ee991e, type: 3}
+  clickImage: {fileID: 415052861}
+  mm: {fileID: 1920164617}
+  selectedStall: {fileID: 460482381849102217}
+  fm: {fileID: 1993472548}
+  speed: 1
+--- !u!114 &659210108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2bc15fb6764a664fb7906db4e5372de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderItem: {fileID: 3552520240309311823, guid: 5f7088ce1beead14b9e23f98493ec559, type: 3}
+  fm: {fileID: 1993472548}
+  pm: {fileID: 659210109}
+  filledColor: {r: 0.5377358, g: 0.5098344, b: 0.5098344, a: 0}
+  unfilledColor: {r: 1, g: 1, b: 1, a: 0}
+  contentArea: {fileID: 361099877}
+--- !u!114 &659210109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0ea47a51bc6f649b6d50d7c51657e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantItem: {fileID: 3552520240309311823, guid: 151751837d7105e46adfde638ad1eef1, type: 3}
+  fm: {fileID: 1993472548}
+  plantObjects:
+  - {fileID: 11400000, guid: 20d9cc3c1edf08c4f8dc6f92f061d10a, type: 2}
+  - {fileID: 11400000, guid: 7827d363b355a4641a1d47f5cdda8a52, type: 2}
+  - {fileID: 11400000, guid: 46d05555d99012d40b62fff5f089e465, type: 2}
+  - {fileID: 11400000, guid: a1eaf0ba9c1158b45a5c606588ef97a9, type: 2}
+  contentArea: {fileID: 1159069667}
+--- !u!114 &659210110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5377479a9609c3a49831aa8717af258e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bagItemPrefab: {fileID: 6790483261477520226, guid: 201795eb09a8e8a47a65da1564cd5cfe, type: 3}
+  contentArea: {fileID: 1097890166}
+--- !u!4 &659210111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659210103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.37938, y: 18.091362, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &671427022
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,6 +3213,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3696,6 +3840,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3735,7 +3883,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 146591248}
-  - {fileID: 1382542081}
   m_Father: {fileID: 1068686835}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4053,6 +4200,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4074,7 +4225,6 @@ GameObject:
   - component: {fileID: 1053958054}
   - component: {fileID: 1053958053}
   - component: {fileID: 1053958052}
-  - component: {fileID: 1053958051}
   m_Layer: 5
   m_Name: Recipes
   m_TagString: Untagged
@@ -4082,21 +4232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1053958051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053958050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935badaccbcc5e74cb34b4a7fbb1fbb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recipeItem: {fileID: 3552520240309311823, guid: c299a24db1b32e24bbb0a34f66011b23, type: 3}
-  fm: {fileID: 1993472548}
-  recipeObjects: []
 --- !u!114 &1053958052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4224,7 +4359,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -4416,6 +4551,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4437,7 +4576,6 @@ GameObject:
   - component: {fileID: 1097890166}
   - component: {fileID: 1097890169}
   - component: {fileID: 1097890167}
-  - component: {fileID: 1097890168}
   m_Layer: 5
   m_Name: Bag
   m_TagString: Untagged
@@ -4479,20 +4617,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &1097890168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1097890165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5377479a9609c3a49831aa8717af258e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bagItem: {fileID: 3552520240309311823, guid: 201795eb09a8e8a47a65da1564cd5cfe, type: 3}
-  fm: {fileID: 1993472548}
 --- !u!114 &1097890169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4775,6 +4899,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4875,10 +5003,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1159069667}
   - component: {fileID: 1159069668}
-  - component: {fileID: 1159069670}
   - component: {fileID: 1159069669}
   m_Layer: 5
-  m_Name: Shop
+  m_Name: PlantShop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4942,21 +5069,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &1159069670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159069666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0ea47a51bc6f649b6d50d7c51657e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plantItem: {fileID: 3552520240309311823, guid: 151751837d7105e46adfde638ad1eef1, type: 3}
-  fm: {fileID: 1993472548}
-  plantObjects: []
 --- !u!1 &1200508154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5325,6 +5437,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5763,7 +5879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 8.2, y: -0.4}
+  m_AnchoredPosition: {x: 8.200001, y: -0.4}
   m_SizeDelta: {x: 63.1009, y: 19.0478}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1284345846
@@ -6080,12 +6196,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 918248819}
-  m_RootOrder: 1
+  m_Father: {fileID: 146591248}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 4.600006, y: 0}
+  m_AnchoredPosition: {x: -96.129974, y: -0.00017166138}
   m_SizeDelta: {x: 100, y: 51.8}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1382542082
@@ -6944,6 +7060,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7066,6 +7186,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8122,9 +8246,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
-      propertyPath: droppedPlant
+      propertyPath: canvasTransform
       value: 
-      objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8588,6 +8712,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8609,7 +8737,6 @@ GameObject:
   - component: {fileID: 1920164621}
   - component: {fileID: 1920164620}
   - component: {fileID: 1920164619}
-  - component: {fileID: 1920164618}
   m_Layer: 5
   m_Name: Market
   m_TagString: Untagged
@@ -8617,22 +8744,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1920164618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920164617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38514336aa980224c896bcf707e11eba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  marketItem: {fileID: 3552520240309311823, guid: 319df90a01ae6a940b0d35165d9ee1e3, type: 3}
-  fm: {fileID: 1993472548}
-  sm: {fileID: 446429182}
-  mm: {fileID: 1920164618}
 --- !u!114 &1920164619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9404,10 +9515,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectPlant: {fileID: 0}
-  selectPlantFood: {fileID: 0}
-  marketManager: {fileID: 0}
-  orderManager: {fileID: 0}
-  bag: {fileID: 1097890168}
+  marketManager: {fileID: 659210104}
+  orderManager: {fileID: 659210108}
   money: 100
   level: 1
   currentXp: 0
@@ -9418,14 +9527,13 @@ MonoBehaviour:
   buyColor: {r: 0, g: 1, b: 0, a: 1}
   cancelColor: {r: 1, g: 0, b: 0, a: 1}
   moneyTxt: {fileID: 1382542082}
-  levelTxt: {fileID: 0}
+  levelTxt: {fileID: 1270691514}
   buttonsImg:
   - {fileID: 1689958631}
   - {fileID: 1953847094}
   - {fileID: 2129707929}
   normalButton: {fileID: 7122359577590926976, guid: 1371bb2abbe92d84f8bcfec1e23cd7e1, type: 3}
   selectedButton: {fileID: -7187093165402134859, guid: 1371bb2abbe92d84f8bcfec1e23cd7e1, type: 3}
-  plantInventory: []
 --- !u!1 &2035951137
 GameObject:
   m_ObjectHideFlags: 0
@@ -9830,7 +9938,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 446429182}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StallManager, Assembly-CSharp
         m_MethodName: CancleStall
         m_Mode: 1
@@ -9971,7 +10079,6 @@ GameObject:
   - component: {fileID: 2117410806}
   - component: {fileID: 2117410809}
   - component: {fileID: 2117410807}
-  - component: {fileID: 2117410808}
   m_Layer: 5
   m_Name: Foods
   m_TagString: Untagged
@@ -10013,19 +10120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &2117410808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117410805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3d7c4d3e7024a4fb75066085d587e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plantFoodItem: {fileID: 3552520240309311823, guid: 0543d0e186dd904438c8ef3d8b65aa77, type: 3}
 --- !u!114 &2117410809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10379,6 +10473,10 @@ PrefabInstance:
       propertyPath: droppedPlant
       value: 
       objectReference: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+    - target: {fileID: 5767276139829863971, guid: f7cd63eaaccd8014888f4f7bda34bb71, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 1068686835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10968,7 +11066,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 446429182}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StallManager, Assembly-CSharp
         m_MethodName: AddStall
         m_Mode: 1
@@ -11402,7 +11500,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 38.3, y: 0}
+  m_AnchoredPosition: {x: 38.300003, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7188445262783633470

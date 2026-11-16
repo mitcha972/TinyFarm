@@ -52,7 +52,7 @@ public class RecipeItem : MonoBehaviour
     {  
         for(int i = 0; i < orders.Count; i++)
         {      
-            if(PlantQuantity(orders[i].plant) < orders[i].quantity)
+            if(fm.GetAmount(orders[i].plant) < orders[i].quantity)
             {
                 Debug.Log("noFire");
                 return;                
@@ -67,21 +67,11 @@ public class RecipeItem : MonoBehaviour
         RemovePlants();        
     }
 
-    private int PlantQuantity(Plant plant)
-    {
-        for(int i = 0; i < fm.plantInventory.Count; i++){
-            if(fm.plantInventory[i].plantName == plant.plantName)
-                return fm.plantInventory[i].quantity;
-        }
-
-        return 0;
-    }   
-
     public void RemovePlants()
     { 
        for(int i = 0; i < orders.Count; i++)
         {
-            //Debug.Log("Sold " + orders[i].quantity + " - "+ orders[i].plant.plantName);
+            //Debug.Log("Sold " + orders[i].quantity + " - "+ orders[i].plant.PlantName);
             fm.RemovePlant(orders[i].plant, orders[i].quantity);
         }  
 
@@ -98,7 +88,7 @@ public class RecipeItem : MonoBehaviour
         bkg.color = tempColor;
         btn.interactable = true;
 
-        fm.AddPlant(new Plant(recipeName,price,orders[0].plant.icon),1);
+        //TODO fm.AddPlant(new Plant(recipeName,price,orders[0].plant.Icon),1);
     }
 
     void InitializeUI()
@@ -110,14 +100,14 @@ public class RecipeItem : MonoBehaviour
             //Add order objects 
             //RecipeObj newR = Instantiate(recipeObj, transform).GetComponent<RecipeObj>();
             //newR.transform.SetParent(HGL);
-            HGL.GetChild(i).gameObject.GetComponent<RecipeObj>().InitializeUI(orders[i].quantity,orders[i].plant.icon);
-            //newR.InitializeUI(orders[i].quantity,orders[i].plant.icon);
+            HGL.GetChild(i).gameObject.GetComponent<RecipeObj>().InitializeUI(orders[i].quantity,orders[i].plant.Icon);
+            //newR.InitializeUI(orders[i].quantity,orders[i].plant.Icon);
             
             //Initialize New Recipe
-            price += (orders[i].plant.sellPrice * orders[i].quantity);
+            price += (orders[i].plant.SellPrice * orders[i].quantity);
             //nameTxt.text = recipeName;
-            //quantityTxt[i].text = "" + orders[i].quantity;
-            //icon[i].sprite = orders[i].plant.icon;
+            //quantityTxt[i].text = "" + orders[i].orderQuantity;
+            //icon[i].sprite = orders[i].orderPlant.Icon;
         }
 
         nameTxt.text = recipeName;

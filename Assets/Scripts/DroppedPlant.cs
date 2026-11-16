@@ -1,34 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class DroppedPlant : MonoBehaviour
+public class DroppedPlant : MonoBehaviour, IPointerEnterHandler
 {
-    public Plant plant;
-    public Image icon;
-    private float timer;
-    private FarmManager fm;
+    [SerializeField] private Image icon;
+    private Plant plant;
 
-    void Start()
+    public void Setup(Plant plant)
     {
-        timer = 0;
-        InitializeUI();
+        this.plant = plant;
+        icon.sprite = plant.Icon;
     }
 
-    void InitializeUI()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        icon.sprite = plant.icon;
-    }
-
-    private void OnMouseOver()
-    {
-        CollectPlant();
-    }
-
-    private void CollectPlant()
-    {
-        fm.AddPlant(plant, 1);
-        Destroy(this.gameObject);
+        FarmManager.Instance.AddPlant(plant, 1);
+        Destroy(gameObject);
     }
 }

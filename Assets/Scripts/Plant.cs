@@ -5,21 +5,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="New Plant", menuName ="Plant")]
 public class Plant : ScriptableObject
 {
-    public string plantName;
-    public int sellPrice;
-    public int buyPrice;
-    public int quantity;
-    public Sprite[] plantStages;
-    public float timeBtwStages;
-    public int unlockLevel;
-    public Sprite icon;
-    public Sprite dryPlanted;
+    [SerializeField] private string plantName;
+    public string PlantName => plantName;
+    [SerializeField] private int sellPrice;
+    public int SellPrice => sellPrice;
+
+    [SerializeField] private int buyPrice;
+    public int BuyPrice => buyPrice;
     
-    public Plant(string pName, int sPrice, Sprite con)
-    {
-        plantName = pName;
-        sellPrice = sPrice;
-        icon = con;
-        quantity = 1;
-    }
+    [SerializeField] private Sprite[] plantStages;
+    public Sprite[] PlantStages => plantStages;
+
+    [SerializeField] private float timeBtwStages;
+    public float TimeBtwStages => timeBtwStages;
+    [SerializeField] private int unlockLevel;
+    public int UnlockLevel => unlockLevel;
+    [SerializeField] private Sprite icon;
+    public Sprite Icon => icon;
+    [SerializeField] private Sprite dryPlanted;
+    public Sprite DryPlanted => dryPlanted;
 }
