@@ -1,72 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StallManager : MonoBehaviour
 {
-    public GameObject stallItem;
-    public GameObject clickImage;
-    public GameObject mm;
+    [SerializeField] private GameObject stallItem;
+    [SerializeField] private GameObject clickImage;
+    [SerializeField] private GameObject mm;
     public StallItem selectedStall;
+    [SerializeField] private int speed;
+    private float timer = 2f;
+    private readonly List<StallItem> stallItems = new List<StallItem>();
 
-    [SerializeField] private FarmManager fm;
-    private float timer;
-    public int speed;
-
-    private List<StallItem> stallItems = new List<StallItem>();
-    
     private void Start()
     {
-        //AddStall();
-        timer = 2f;
+        foreach (StallItem stall in GetComponentsInChildren<StallItem>(true))
+        {
+            stall.Setup(this, mm, clickImage);
+            if (!stallItems.Contains(stall)) stallItems.Add(stall);
+        }
     }
 
     private void Update()
     {
-        timer -= speed*Time.deltaTime;
-
-        if (timer < 0){
-            CheckStall();
-        }       
+        timer -= speed * Time.deltaTime;
+        if (timer <= 0) CheckStall();
     }
-    
+
     public void CheckStall()
     {
-        foreach(StallItem si in stallItems)
-        {
-            //If the stall is active
-            if(si.isActive == true)
-            {
-                //buy goods
-                si.SellPlant();
-                
-                if(si.quantity<= 0)
-                    si.RemoveStall();
-            }
-        }
-
-        timer = 2;
+        foreach (StallItem stall in stallItems)
+            if (stall != null) stall.SellOne();
+        timer = 2f;
     }
 
     public void AddStall()
     {
-        //Check Money
-        //
-
-        //Add Stall
-        StallItem newStall = Instantiate(stallItem, transform).GetComponent<StallItem>();
-        newStall.ci = clickImage;
-        newStall.mm = mm;
-        stallItems.Add(newStall);
-
-        //Update Money
-        //
+        StallItem stall = Instantiate(stallItem, transform).GetComponent<StallItem>();
+        stall.Setup(this, mm, clickImage);
+        stallItems.Add(stall);
     }
 
-    public void CancleStall()
+    public void CancelStall()
     {
-        selectedStall.gameObject.SetActive(true);
+        if (selectedStall != null) selectedStall.gameObject.SetActive(true);
         clickImage.SetActive(false);
+        mm.SetActive(false);
         selectedStall = null;
     }
 }

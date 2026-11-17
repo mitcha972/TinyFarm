@@ -1,123 +1,128 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 public class StallItem : MonoBehaviour
 {
-    public Plant plant;
+    [SerializeField] private Plant plant;
     private FarmManager fm;
-    private StallManager sm;
-    public InputField inputField;
-
-    public GameObject mm;
-    public GameObject ci;
-
-    public Text nameTxt;
-    public Text priceTxt;
-    public Text quantityTxt;
-    public Text btnTxt;
+    [SerializeField] private StallManager stallManager;
+    [SerializeField] private InputField inputField;
+    [SerializeField] private GameObject marketManager;
+    public GameObject contentArea;
+    [SerializeField] private Text nameTxt;
+    [SerializeField] private Text priceTxt;
+    [SerializeField] private Text quantityTxt;
+    [SerializeField] private Text btnTxt;
     [SerializeField] private Text inputText;
+    [SerializeField] private Image icon;
+    [SerializeField] private Sprite blankIcon;
+    [SerializeField] private int quantity;
+    [FormerlySerializedAs("percent")] [SerializeField, Range(-20, 20)] private int percentBonus;
+    [SerializeField] private bool isActive;
 
-    public Image icon;
-    [SerializeField] public Sprite blankIcon;
-
-    public int quantity;
-    public int percent; 
-
-    public bool isSettingUp;  
-    public bool isActive;   
-
-    void Awake()
+    private void Start()
     {
-        fm = FindObjectOfType<FarmManager>();
-        sm = FindObjectOfType<StallManager>();
-        //inputText =  inputField.transform.GetChild(2).GetComponent<Text>();
-        
-        plant = null;
+        fm = FarmManager.Instance;
+        RefreshPrice();
+    }
+
+    public void Setup(StallManager manager, GameObject market, GameObject overlay)
+    {
+        stallManager = manager;
+        marketManager = market;
+        contentArea = overlay;
+    }
+
+    public void SellOne()
+    {
+        if (!isActive || plant == null || quantity <= 0) return;
+        // Goods were already removed from the bag when the stall started.
+        fm.AddMoney(SalePrice);
+        quantity--;
+        quantityTxt.text = quantity.ToString();
+        inputText.text = quantity.ToString();
+        if (quantity == 0) RemoveStall();
     }
 
     public void SellPlant()
     {
-        Debug.Log("Sold 1 - " + plant.PlantName);
-        fm.RemovePlant(plant, 1);
-        fm.Transaction(plant.SellPrice);
-        quantity -= 1; 
-        inputText.text = ""+ quantity;
-
+        SellOne();
     }
 
     public void ChoosePlant()
     {
-        mm.SetActive(!mm.activeSelf);
-        ci.SetActive(true);
-        ci.GetComponent<ClickImage>().tab = this.gameObject;
-        sm.selectedStall = this;
-        this.gameObject.SetActive(false);
+        if (isActive || stallManager == null) return;
+        marketManager.SetActive(true);
+        contentArea.SetActive(true);
+        contentArea.GetComponent<StallSelectionOverlay>().tab = gameObject;
+        stallManager.selectedStall = this;
+        gameObject.SetActive(false);
     }
 
-    public void GetPlant(Plant getPlant)
+    public void GetPlant(Plant plant)
     {
-        if(plant == getPlant)
-            return;
-
-        plant = getPlant;
+        if (isActive || plant == null) return;
+        this.plant = plant;
         icon.sprite = plant.Icon;
         nameTxt.text = plant.PlantName;
+        RefreshPrice();
     }
 
     public void GetQuantity()
     {
-        quantity = int.Parse(inputField.text);
-        quantityTxt.text = "" + quantity;
+        if (isActive) return;
+        quantity = int.TryParse(inputField.text, out int parsed) && parsed > 0 ? parsed : 0;
+        quantityTxt.text = quantity.ToString();
     }
 
-    public void GetPercent(int getPercent)
+    public void GetPercent(int percentBonus)
     {
-        if(percent == getPercent)
-            return;
-        percent = getPercent;
-        priceTxt.text = "$" + percent;
+        if (isActive) return;
+        this.percentBonus = Mathf.Clamp(percentBonus, -20, 20);
+        RefreshPrice();
+    }
+
+    private int SalePrice => Mathf.RoundToInt(plant.SellPrice * (1 + Mathf.Clamp(percentBonus, -20, 20) / 100f));
+
+    private void RefreshPrice()
+    {
+        percentBonus = Mathf.Clamp(percentBonus, -20, 20);
+        string bonus = percentBonus.ToString("+0;-0;0") + "%";
+        priceTxt.text = plant == null ? bonus : "$" + SalePrice + " (" + bonus + ")";
     }
 
     public void SetUpStall()
     {
-        //Check plant is selected
-        if(plant == null || quantity == 0)
-        {
-            Debug.Log("fields not full");
-            return;
-        }
-        
+        if (isActive) return;
+        GetQuantity();
+        if (plant == null || quantity <= 0 || !fm.TryRemovePlant(plant, quantity)) return;
         isActive = true;
-        fm.RemovePlant(plant, quantity);
         btnTxt.text = "Close";
         inputField.gameObject.SetActive(false);
-        inputText.text = ""+ quantity;
+        inputText.text = quantity.ToString();
     }
 
     public void RemoveStall()
     {
+        if (isActive && quantity > 0) fm.AddPlant(plant, quantity);
         isActive = false;
-        Debug.Log("Removed " + plant.PlantName);
         plant = null;
         quantity = 0;
-        percent = 0;
+        percentBonus = 0;
         quantityTxt.text = "-";
         priceTxt.text = "-";
         icon.sprite = blankIcon;
         nameTxt.text = "Crop..";
         btnTxt.text = "Start";
         inputText.text = "";
+        inputField.text = "";
         inputField.gameObject.SetActive(true);
-    
     }
 
     public void ButtonClick()
     {
-        if(isActive)
-            RemoveStall();
-        else
-           SetUpStall(); 
-    } 
+        if (isActive) RemoveStall();
+        else SetUpStall();
+    }
 }

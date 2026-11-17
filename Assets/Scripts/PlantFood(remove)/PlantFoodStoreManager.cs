@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlantFoodStoreManager : MonoBehaviour
 {
-    public GameObject plantFoodItem;
+    [SerializeField] private GameObject plantFoodItem;
     [SerializeField] private Transform contentArea;
     List<PlantFoodObject> plantFoodObjects = new List<PlantFoodObject>();
     
@@ -18,6 +18,10 @@ public class PlantFoodStoreManager : MonoBehaviour
         }
 
         plantFoodObjects.Sort(SortByPrice);
+    }
+
+    private void Start()
+    {
 
         foreach (var plantFood in plantFoodObjects)
         {

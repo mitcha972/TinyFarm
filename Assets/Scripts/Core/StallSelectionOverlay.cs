@@ -1,14 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickImage : MonoBehaviour
+public class StallSelectionOverlay : MonoBehaviour
 {
     public GameObject tab;
 
     public void CloseImage()
     {
-        tab.SetActive(true);
+        if (tab != null) tab.SetActive(true);
         tab = null;
+        gameObject.SetActive(false);
     }
 }

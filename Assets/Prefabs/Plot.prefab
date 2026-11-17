@@ -142,7 +142,6 @@ GameObject:
   - component: {fileID: 7940850866964837905}
   - component: {fileID: 8374562690122223009}
   - component: {fileID: 3787694126699339772}
-  - component: {fileID: -7669138664227480257}
   - component: {fileID: 5767276139829863971}
   m_Layer: 0
   m_Name: Plot
@@ -296,18 +295,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-7669138664227480257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5123649094196614893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 678b0b0ac2dc7b34a845f2d86771225a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5767276139829863971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droppedPlant: {fileID: 1948561512144364641, guid: 640034c8138ddb24587805ddb17c47df, type: 3}
+  plantSpriteRenderer: {fileID: 2919739941886435230}
+  canvasTransform: {fileID: 0}
   dryPlotSprite: {fileID: -939494641437605497, guid: 1371bb2abbe92d84f8bcfec1e23cd7e1, type: 3}
   notRakedSprite: {fileID: -5737574994739756139, guid: 1371bb2abbe92d84f8bcfec1e23cd7e1, type: 3}
   healthyPlotSprite: {fileID: -939494641437605497, guid: 1371bb2abbe92d84f8bcfec1e23cd7e1, type: 3}

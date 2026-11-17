@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecipeObj : MonoBehaviour
+public class IngredientSlot : MonoBehaviour
 {
     public Text quantityTxt;
     public Image icon;

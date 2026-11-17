@@ -1,69 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MarketItem : MonoBehaviour
 {
     public Plant plant;
+    private StallManager stallManager;
+    private MarketManager marketManager;
+    [SerializeField] private Text nameTxt;
+    [SerializeField] private Text priceTxt;
+    [SerializeField] private Text quantityTxt;
+    [SerializeField] private Image icon;
+    [SerializeField] private int quantity;
 
-    public StallManager sm;
-    public MarketManager mm;
-    public StallItem stallItem;
-
-    public Text nameTxt;
-    public Text priceTxt;
-    public Text quantityTxt;
-    //public Text btnTxt;
-
-    public Image icon;
-
-    public int quantity;     
-
-    void Awake()
+    public void Setup(Plant plant, MarketManager marketManager, StallManager stallManager)
     {
-        InitializeUI();
+        this.plant = plant;
+        this.marketManager = marketManager;
+        this.stallManager = stallManager;
+        nameTxt.text = plant.PlantName;
+        priceTxt.text = "$" + plant.SellPrice;
+        icon.sprite = plant.Icon;
+        SetAmount(FarmManager.Instance.GetAmount(plant));
+    }
+
+    public void SetAmount(int amount)
+    {
+        quantity = amount;
+        quantityTxt.text = amount.ToString();
     }
 
     public void SelectPlant()
     {
-        if(sm.selectedStall == null)
-        {
-            Debug.Log("noStall");
-            return;
-        }
-
-        sm.selectedStall.GetPlant(plant);
+        if (stallManager == null || stallManager.selectedStall == null) return;
+        stallManager.selectedStall.GetPlant(plant);
         CloseSelection();
     }
 
     public void CloseSelection()
     {
-        sm.selectedStall.gameObject.SetActive(true);
-        sm.selectedStall.ci.SetActive(false);
-        mm.gameObject.SetActive(false);
+        if (stallManager == null || stallManager.selectedStall == null) return;
+        stallManager.selectedStall.gameObject.SetActive(true);
+        stallManager.selectedStall.contentArea.SetActive(false);
+        stallManager.selectedStall = null;
+        marketManager.gameObject.SetActive(false);
     }
 
     public void SellPlant()
     {
-        Debug.Log("Sold 1 - " + plant.PlantName);
-        FarmManager.Instance.RemovePlant(plant, 1);
-        FarmManager.Instance.Transaction(plant.SellPrice);
+        FarmManager.Instance.TrySellPlant(plant, 1);
     }
 
     public void SellAllPlants()
     {
-        Debug.Log("Sold All " + plant.PlantName);
-        FarmManager.Instance.Transaction(plant.SellPrice * FarmManager.Instance.GetAmount(plant));
-        FarmManager.Instance.RemovePlant(plant, FarmManager.Instance.GetAmount(plant));
-        
-    }
-
-    void InitializeUI()
-    {
-        nameTxt.text = plant.PlantName;
-        priceTxt.text = "$" + plant.SellPrice;
-        quantityTxt.text = "" + FarmManager.Instance.GetAmount(plant);
-        icon.sprite = plant.Icon;
+        FarmManager farm = FarmManager.Instance;
+        farm.TrySellPlant(plant, farm.GetAmount(plant));
     }
 }

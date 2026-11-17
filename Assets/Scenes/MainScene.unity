@@ -938,6 +938,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &227079555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 227079556}
+  m_Layer: 0
+  m_Name: FarmScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &227079556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227079555}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &264646198
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2047,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &415812979
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2082,7 +2113,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 818131457}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CameraMovement, Assembly-CSharp
         m_MethodName: RotateCamera
         m_Mode: 1
@@ -2945,9 +2976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marketItem: {fileID: 3552520240309311823, guid: 319df90a01ae6a940b0d35165d9ee1e3, type: 3}
-  fm: {fileID: 1993472548}
   sm: {fileID: 659210107}
-  mm: {fileID: 659210104}
   contentArea: {fileID: 1920164621}
 --- !u!114 &659210105
 MonoBehaviour:
@@ -2976,7 +3005,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipeItem: {fileID: 3552520240309311823, guid: c299a24db1b32e24bbb0a34f66011b23, type: 3}
-  fm: {fileID: 1993472548}
   contentArea: {fileID: 1053958054}
   recipeObjects:
   - {fileID: 11400000, guid: 29a2b29a112aa1b42bdd19fabc7cbf70, type: 2}
@@ -2996,7 +3024,6 @@ MonoBehaviour:
   clickImage: {fileID: 415052861}
   mm: {fileID: 1920164617}
   selectedStall: {fileID: 460482381849102217}
-  fm: {fileID: 1993472548}
   speed: 1
 --- !u!114 &659210108
 MonoBehaviour:
@@ -3011,10 +3038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orderItem: {fileID: 3552520240309311823, guid: 5f7088ce1beead14b9e23f98493ec559, type: 3}
-  fm: {fileID: 1993472548}
   pm: {fileID: 659210109}
-  filledColor: {r: 0.5377358, g: 0.5098344, b: 0.5098344, a: 0}
-  unfilledColor: {r: 1, g: 1, b: 1, a: 0}
   contentArea: {fileID: 361099877}
 --- !u!114 &659210109
 MonoBehaviour:
@@ -3029,7 +3053,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantItem: {fileID: 3552520240309311823, guid: 151751837d7105e46adfde638ad1eef1, type: 3}
-  fm: {fileID: 1993472548}
   plantObjects:
   - {fileID: 11400000, guid: 20d9cc3c1edf08c4f8dc6f92f061d10a, type: 2}
   - {fileID: 11400000, guid: 7827d363b355a4641a1d47f5cdda8a52, type: 2}
@@ -3063,7 +3086,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &671427022
 GameObject:
@@ -3454,7 +3477,7 @@ Transform:
   m_Children:
   - {fileID: 1993472545}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &762733618
 GameObject:
@@ -3541,7 +3564,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 818131456}
-  - component: {fileID: 818131457}
   - component: {fileID: 818131459}
   - component: {fileID: 818131458}
   m_Layer: 5
@@ -3571,24 +3593,6 @@ RectTransform:
   m_AnchoredPosition: {x: 371.46765, y: -155.82907}
   m_SizeDelta: {x: 800, y: 450.06}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &818131457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818131455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f26493c882d69864891acba2f742ce35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 519420031}
-  camScreen: {fileID: 818131455}
-  farm: {fileID: 1993472544}
-  zoomStep: 0.3
-  minCamSize: 2.5
-  maxCamSize: 8
 --- !u!114 &818131458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4392,7 +4396,7 @@ RectTransform:
   - {fileID: 1947307302}
   - {fileID: 1556452867}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5028,7 +5032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.00005340576}
   m_SizeDelta: {x: 255, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1159069668
@@ -6352,7 +6356,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1394255535}
-  - component: {fileID: 1394255536}
   m_Layer: 5
   m_Name: RequestsTab
   m_TagString: Untagged
@@ -6382,18 +6385,6 @@ RectTransform:
   m_AnchoredPosition: {x: 51.8, y: 130.1}
   m_SizeDelta: {x: 80, y: 84}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1394255536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394255534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fb6cf91c56804042a02393d737abb43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1417115797
 GameObject:
   m_ObjectHideFlags: 0
@@ -6804,7 +6795,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2067935844}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8084,7 +8075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.09803922}
+  m_Color: {r: 0.5566038, g: 0.50671947, b: 0.50671947, a: 0.09803922}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9127,7 +9118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979546384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9193,7 +9184,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 818131457}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CameraMovement, Assembly-CSharp
         m_MethodName: ToggleCameraMove
         m_Mode: 1
@@ -9514,21 +9505,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd491452f6867419f3afa457580db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectPlant: {fileID: 0}
-  marketManager: {fileID: 659210104}
-  orderManager: {fileID: 659210108}
+  SelectedSeed: {fileID: 0}
   money: 100
   level: 1
   currentXp: 0
   isPlanting: 0
-  isBoosting: 0
   isSelecting: 0
   selectedTool: 0
   buyColor: {r: 0, g: 1, b: 0, a: 1}
   cancelColor: {r: 1, g: 0, b: 0, a: 1}
   moneyTxt: {fileID: 1382542082}
   levelTxt: {fileID: 1270691514}
-  buttonsImg:
+  toolButtonImages:
   - {fileID: 1689958631}
   - {fileID: 1953847094}
   - {fileID: 2129707929}
@@ -10628,9 +10616,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plant: {fileID: 0}
+  stallManager: {fileID: 659210107}
   inputField: {fileID: 6277882729078508706}
-  mm: {fileID: 0}
-  ci: {fileID: 0}
+  marketManager: {fileID: 659210103}
+  contentArea: {fileID: 446429179}
   nameTxt: {fileID: 8101717316896892603}
   priceTxt: {fileID: 8078543966470021718}
   quantityTxt: {fileID: 1040056941761254288}
@@ -10639,8 +10628,7 @@ MonoBehaviour:
   icon: {fileID: 8196422242848589511}
   blankIcon: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   quantity: 0
-  percent: 0
-  isSettingUp: 0
+  percentBonus: 0
   isActive: 0
 --- !u!114 &1040056941761254288
 MonoBehaviour:

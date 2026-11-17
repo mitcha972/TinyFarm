@@ -1,52 +1,64 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
-    public GameObject marketItem;
-    [SerializeField] private FarmManager fm;
+    [SerializeField] private GameObject marketItem;
     [SerializeField] private StallManager sm;
-    [SerializeField] private MarketManager mm;
-
-    List<MarketItem> marketItems = new List<MarketItem>();
-
     [SerializeField] private Transform contentArea;
+    private readonly List<MarketItem> marketItems = new List<MarketItem>();
 
-    private void Awake()
+    private void Start()
     {
-        /*
-        foreach (Plant plant in fm.plantInventory)
+        FarmManager.Instance.OnInventoryChanged += Refresh;
+        foreach (var entry in FarmManager.Instance.Inventory)
+            Refresh(entry.Key, entry.Value);
+    }
+
+    private void OnDestroy()
+    {
+        if (FarmManager.Instance != null)
+            FarmManager.Instance.OnInventoryChanged -= Refresh;
+    }
+
+    private void Refresh(Plant plant, int amount)
+    {
+        for (int i = marketItems.Count - 1; i >= 0; i--)
         {
-            MarketItem newPlant = Instantiate(marketItem, contentArea).GetComponent<MarketItem>();
-            newPlant.plant = plant;
-            marketItems.Add(newPlant);
+            MarketItem item = marketItems[i];
+            if (item.plant != plant) continue;
+            if (amount > 0) item.SetAmount(amount);
+            else
+            {
+                marketItems.RemoveAt(i);
+                Destroy(item.gameObject);
+            }
+            return;
         }
-        */
+        if (amount > 0) AddToMarket(plant);
     }
 
     public void AddToMarket(Plant plant)
     {
-        MarketItem newPlant = Instantiate(marketItem, contentArea).GetComponent<MarketItem>();
-        newPlant.plant = plant;
-        newPlant.mm = mm;
-        newPlant.sm = sm;
-        marketItems.Add(newPlant);
+        if (plant == null || marketItems.Exists(item => item.plant == plant)) return;
+        MarketItem item = Instantiate(marketItem, contentArea).GetComponent<MarketItem>();
+        item.Setup(plant, this, sm);
+        marketItems.Add(item);
     }
 
     public void RemoveFromMarket(string plantName)
     {
-        for(int i = 0; i< marketItems.Count; i++)
-            if(marketItems[i].plant.PlantName == plantName){
-                MarketItem I = marketItems[i];
-                marketItems.Remove(I);
-                Destroy(I.gameObject);
-            }
+        for (int i = marketItems.Count - 1; i >= 0; i--)
+        {
+            MarketItem item = marketItems[i];
+            if (item.plant.PlantName != plantName) continue;
+            marketItems.RemoveAt(i);
+            Destroy(item.gameObject);
+        }
     }
 
-    public void UpdateMarket(int i, int quant)
+    public void UpdateMarket(int index, int amount)
     {
-        marketItems[i].quantity = quant;
-        marketItems[i].quantityTxt.text = "" + quant;
+        if (index >= 0 && index < marketItems.Count) marketItems[index].SetAmount(amount);
     }
 }

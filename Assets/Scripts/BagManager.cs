@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +11,8 @@ public class BagManager : MonoBehaviour
     private void Start()
     {
         FarmManager.Instance.OnInventoryChanged += Refresh;
+        foreach (var entry in FarmManager.Instance.Inventory)
+            Refresh(entry.Key, entry.Value);
     }
 
     private void Refresh(Plant plant, int amount)
@@ -41,6 +42,7 @@ public class BagManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        FarmManager.Instance.OnInventoryChanged -= Refresh;
+        if (FarmManager.Instance != null)
+            FarmManager.Instance.OnInventoryChanged -= Refresh;
     }
 }

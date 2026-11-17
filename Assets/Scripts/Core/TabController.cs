@@ -1,59 +1,54 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TabController : MonoBehaviour
 {
-    public ScrollRect myScrollRect;
-    public Text storeTitle;
-    public int currentTab = 0;
-    public int currentPage = 0;
-    public List<Tab> tabs;
-
+    [SerializeField] private ScrollRect myScrollRect;
+    [SerializeField] private Text storeTitle;
+    [SerializeField] private int currentTab;
+    [SerializeField] private int currentPage;
+    [SerializeField] private List<Tab> tabs;
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color unselectedColor;
 
-    void Start()
+    private void Start()
     {
-        myScrollRect.content = tabs[currentTab].pages[currentPage].GetComponent<RectTransform>();
-        //storeTitle.text = tabs[currentTab].pages[currentPage].name;
+        ShowPage();
     }
 
     public void SelectTab(int tabNumber)
     {
-        if(tabNumber == currentTab)
-            return;   
-
-        tabs[currentTab].buttonsImg.color =  unselectedColor;
-        tabs[currentTab].pages[currentPage].SetActive(false); 
-        tabs[tabNumber].pages[tabs[tabNumber].currentPage].SetActive(true);
-
-        currentTab = tabs[tabNumber].tabNum;
+        if (tabNumber < 0 || tabNumber >= tabs.Count) return;
+        if (currentTab >= 0 && currentTab < tabs.Count) tabs[currentTab].currentPage = currentPage;
+        currentTab = tabNumber;
         currentPage = tabs[currentTab].currentPage;
-        myScrollRect.content = tabs[currentTab].pages[currentPage].GetComponent<RectTransform>();
-        storeTitle.text = tabs[currentTab].pages[currentPage].name;    
-        tabs[currentTab].buttonsImg.color =  selectedColor;
+        ShowPage();
     }
 
-    public void NextPage(int num)
+    public void NextPage(int offset)
     {
-        tabs[currentTab].pages[currentPage].SetActive(false);
+        if (currentTab < 0 || currentTab >= tabs.Count) return;
+        int count = tabs[currentTab].pages.Count;
+        if (count == 0) return;
+        currentPage = (int)(((long)currentPage + offset) % count + count) % count;
+        ShowPage();
+    }
 
-        int tabPageRange = tabs[currentTab].pages.Count;       
-
-        if (currentPage + num >  tabPageRange-1)  
-            tabs[currentTab].currentPage = 0;
-        else if (currentPage + num <  tabPageRange-1)
-            tabs[currentTab].currentPage = tabPageRange-1;
-        else
-            tabs[currentTab].currentPage = currentPage + num;
-
-        currentPage = tabs[currentTab].currentPage;
-            
-        tabs[currentTab].pages[currentPage].SetActive(true);    
-
-        myScrollRect.content = tabs[currentTab].pages[currentPage].GetComponent<RectTransform>();
-        storeTitle.text = tabs[currentTab].pages[currentPage].name;       
+    private void ShowPage()
+    {
+        if (currentTab < 0 || currentTab >= tabs.Count || tabs[currentTab].pages.Count == 0) return;
+        int count = tabs[currentTab].pages.Count;
+        currentPage = (currentPage % count + count) % count;
+        tabs[currentTab].currentPage = currentPage;
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            tabs[i].buttonsImg.color = i == currentTab ? selectedColor : unselectedColor;
+            for (int j = 0; j < tabs[i].pages.Count; j++)
+                tabs[i].pages[j].SetActive(i == currentTab && j == currentPage);
+        }
+        GameObject page = tabs[currentTab].pages[currentPage];
+        myScrollRect.content = page.GetComponent<RectTransform>();
+        storeTitle.text = page.name;
     }
 }

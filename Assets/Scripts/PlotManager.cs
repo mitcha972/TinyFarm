@@ -1,238 +1,138 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlotManager : MonoBehaviour
 {
+    private const int PlotPrice = 100;
     private Plant selectedPlant;
-    private PlantFoodObject selectedPlantFood;
-    public GameObject droppedPlant;
-
-    private FarmManager fm;
-
-    private SpriteRenderer plantSpriteRenderer;
+    [SerializeField] private GameObject droppedPlant;
+    [SerializeField] private SpriteRenderer plantSpriteRenderer;
     private SpriteRenderer plotSpriteRenderer;
-
+    private FarmManager fm;
     [SerializeField] private Transform canvasTransform;
-
-    [Header("Sprites")]
-    public Sprite dryPlotSprite; //DryPlot 
-    public Sprite notRakedSprite; //Not Raked Plot
-    public Sprite healthyPlotSprite; 
-
-    //public Sprite unkeptPlotSprite;
-
-    public Color availableColor = Color.green;
-    public Color unavailableColor = Color.red; 
-
-    private BoxCollider2D plantCollider;
-
-    [Header("Game Play Variables")]
-    private bool isPlanted = false;
-    private bool isFertalized = false;
+    [SerializeField] private Sprite dryPlotSprite;
+    [SerializeField] private Sprite notRakedSprite;
+    [SerializeField] private Sprite healthyPlotSprite;
+    [SerializeField] private Color availableColor = Color.green;
+    [SerializeField] private Color unavailableColor = Color.red;
+    private bool isPlanted;
     private bool isDry = true;
-    public bool isBought = true;
-
-    private int plantStage = 0; 
-
+    [SerializeField] private bool isBought = true;
+    private int plantStage;
     private float growTimer;
-    private float growSpeed = 1f;   
 
-    void Start()
+    private void Awake()
     {
-        SetUpPlot();
+        plotSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void SetUpPlot()
+    private void Start()
     {
-        plantSpriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        plantCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
-        fm = transform.parent.GetComponent<FarmManager>();
-        plotSpriteRenderer = GetComponent<SpriteRenderer>();
-
-        if (isBought)
+        fm = FarmManager.Instance;
+        if (plantSpriteRenderer == null || plotSpriteRenderer == null)
         {
-            plotSpriteRenderer.sprite = dryPlotSprite;
+            Debug.LogError("Assign the plot and plant SpriteRenderers on PlotManager.", this);
+            enabled = false;
+            return;
         }
-        else
-        {
-            plotSpriteRenderer.sprite = null;
-        }        
+        plotSpriteRenderer.sprite = isBought ? dryPlotSprite : null;
     }
 
     private void Update()
     {
-        if (isPlanted && !isDry)
+        if (!isPlanted || isDry || plantStage >= selectedPlant.PlantStages.Length - 1) return;
+        growTimer -= Time.deltaTime;
+        if (growTimer <= 0)
         {
-            growTimer -= growSpeed*Time.deltaTime;
-
-            if (growTimer < 0 && plantStage<selectedPlant.PlantStages.Length-1)
-            {
-                growTimer = selectedPlant.TimeBtwStages;
-                plantStage++;
-                UpdatePlant();
-            }
+            growTimer = selectedPlant.TimeBtwStages;
+            plantStage++;
+            UpdatePlant();
         }
     }
 
     private void MouseHover()
     {
-        if (!isPlanted)
-        {
-            if(fm.isPlanting && fm.selectPlant.plant.BuyPrice <= fm.money && isBought)
-            {
-                Plant(fm.selectPlant.plant);
+        if (!isPlanted && isBought && fm.isPlanting && fm.SelectedSeed != null)
+            PlantSeed(fm.SelectedSeed.plant);
 
-            }
-        }
-
-/*
-        if (!isFertalized)
+        if (!fm.isSelecting) return;
+        switch (fm.selectedTool)
         {
-            if(fm.isBoosting && fm.selectPlantFood.plantFood.BuyPrice <= fm.money && isBought)
-            {
-                //isDry = false;
-                //plot.sprite = healthyPlotSprite;
+            case ToolType.Water:
+                if (!isBought) return;
+                isDry = false;
+                plotSpriteRenderer.sprite = healthyPlotSprite;
                 if (isPlanted) UpdatePlant();
-                isFertalized = true;
-                //particle.SetActive(true);
-                fm.Transaction(-fm.selectPlantFood.plantFood.BuyPrice);
-            }
-        }
-*/
-
-        if (fm.isSelecting)
-        {
-            switch (fm.selectedTool)
-            {
-                case 1:
-                    if (isBought) {
-                        isDry = false;
-                        plotSpriteRenderer.sprite = healthyPlotSprite;
-                        if (isPlanted) UpdatePlant();
-                    }
-                    break;
-                case 2:                    
-                    if (isPlanted)
-                    {
-                        if (plantStage == selectedPlant.PlantStages.Length - 1 && !fm.isPlanting)
-                        {
-                            Harvest(selectedPlant);
-                            //fm.AddPlant(new Plant(selectedPlant.PlantName,selectedPlant.SellPrice,selectedPlant.Icon),1);   
-                        }
-                    }
-                    break;
-                case 3:
-                    if (fm.money >= 100 && !isBought)
-                    {
-                        fm.Transaction(-100);
-                        isBought = true;
-                        plotSpriteRenderer.sprite = dryPlotSprite;
-                    }
-                    break;
-                default:
-                    break;
-            }
+                break;
+            case ToolType.Harvest:
+                if (isPlanted && plantStage == selectedPlant.PlantStages.Length - 1)
+                    Harvest(selectedPlant);
+                break;
+            case ToolType.BuyPlot:
+                if (!isBought && fm.TrySpend(PlotPrice))
+                {
+                    isBought = true;
+                    plotSpriteRenderer.sprite = dryPlotSprite;
+                }
+                break;
         }
     }
 
     private void OnMouseOver()
     {
-        
-        if (fm.isPlanting)
+        if (!enabled || fm == null) return;
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {
-            if(isPlanted || fm.selectPlant.plant.BuyPrice > fm.money || !isBought)
-            {
-                //can't buy
-                plotSpriteRenderer.color = unavailableColor;
-            }
-            else
-            {
-                //can buy
-                plotSpriteRenderer.color = availableColor;
-            }
+            OnMouseExit();
+            return;
         }
-        if (fm.isSelecting)
+        if (fm.isPlanting && fm.SelectedSeed != null)
+            plotSpriteRenderer.color = !isPlanted && isBought && fm.SelectedSeed.plant.BuyPrice <= fm.Money
+                ? availableColor : unavailableColor;
+        else if (fm.selectedTool == ToolType.BuyPlot)
         {
-            switch (fm.selectedTool)
-            {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    if (!isBought && fm.money>=100)
-                    {
-                        plotSpriteRenderer.sprite = dryPlotSprite;
-                        plotSpriteRenderer.color = availableColor;
-                    }
-                    else
-                    {
-                        plotSpriteRenderer.sprite = dryPlotSprite;
-                        plotSpriteRenderer.color = unavailableColor;
-                    }
-                    break;
-                default:
-                    plotSpriteRenderer.color = unavailableColor;
-                    break;
-            }
+            plotSpriteRenderer.sprite = dryPlotSprite;
+            plotSpriteRenderer.color = !isBought && fm.Money >= PlotPrice ? availableColor : unavailableColor;
         }
+        else
+            OnMouseExit();
 
-        if((Input.GetKey(KeyCode.Mouse0)))
-        {
-            OnMouseOver();
-        }
+        if (Input.GetMouseButton(0)) MouseHover();
     }
 
     private void OnMouseExit()
     {
+        if (plotSpriteRenderer == null) return;
         plotSpriteRenderer.color = Color.white;
-        
-        if (!isBought)
-        {
-            plotSpriteRenderer.sprite = null;
-        }
+        if (!isBought) plotSpriteRenderer.sprite = null;
     }
 
-    void Harvest(Plant newplant)
+    private void Harvest(Plant plant)
     {
+        if (droppedPlant == null || canvasTransform == null || Camera.main == null) return;
+        DroppedPlant drop = Instantiate(droppedPlant, canvasTransform).GetComponent<DroppedPlant>();
+        drop.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+        drop.Setup(plant);
         isPlanted = false;
         plantSpriteRenderer.gameObject.SetActive(false);
-        //fm.Transaction(selectedPlant.sellPrice);
         isDry = true;
         plotSpriteRenderer.sprite = dryPlotSprite;
-        growSpeed = 1f; 
-
-        DroppedPlant droppedplant = Instantiate(droppedPlant, canvasTransform).GetComponent<DroppedPlant>();
-
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-        droppedplant.transform.position = screenPos;
-
-        droppedplant.Setup(newplant);
     }
 
-    void Plant(Plant newPlant)
+    private void PlantSeed(Plant plant)
     {
-        selectedPlant = newPlant;
+        if (plant == null || plant.PlantStages == null || plant.PlantStages.Length == 0
+            || !fm.TrySpend(plant.BuyPrice)) return;
+        selectedPlant = plant;
         isPlanted = true;
-
-        fm.Transaction(-selectedPlant.BuyPrice);
-
         plantStage = 0;
+        growTimer = plant.TimeBtwStages;
         UpdatePlant();
-        growTimer = selectedPlant.TimeBtwStages;
         plantSpriteRenderer.gameObject.SetActive(true);
     }
 
-    void UpdatePlant()
+    private void UpdatePlant()
     {
-        if (isDry)
-        {
-            plantSpriteRenderer.sprite = selectedPlant.DryPlanted;
-        }
-        else
-        {
-            plantSpriteRenderer.sprite = selectedPlant.PlantStages[plantStage];
-        }
+        plantSpriteRenderer.sprite = isDry ? selectedPlant.DryPlanted : selectedPlant.PlantStages[plantStage];
     }
 }

@@ -1,117 +1,95 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 public class RecipeItem : MonoBehaviour
 {
     private FarmManager fm;
-    [SerializeField] private GameObject recipeObj;
+    [FormerlySerializedAs("precent")] [SerializeField] private int percentBonus;
     [SerializeField] private Transform HGL;
     public List<Order> orders;
-
-    public Text nameTxt;
-    public Text priceTxt;
-    public Text btnTxt;
-
-    public Button btn;
-
-    public Image bkg;
-
-    private int price; 
-    public int precent;
-
+    [SerializeField] private Text nameTxt;
+    [SerializeField] private Text priceTxt;
+    [SerializeField] private Text btnTxt;
+    [SerializeField] private Button btn;
+    [SerializeField] private Image bkg;
     public float bakeTime;
-    private float timer;
-    private float speed = 1f; 
-
     public string recipeName;
+    [SerializeField] private bool isBaking;
+    private float timer;
+    [SerializeField] private Plant outputPlant;
 
-    public bool isBaking = false;
+    public void Setup(RecipeData recipe)
+    {
+        orders = recipe.orders;
+        recipeName = recipe.recipeName;
+        bakeTime = recipe.bakeTime;
+        outputPlant = recipe.OutputPlant;
+    }
 
-    void Start()
+    private void Start()
     {
         timer = bakeTime;
-        fm = FindObjectOfType<FarmManager>();
-        InitializeUI();
+        fm = FarmManager.Instance;
+        // Combine repeated ingredients so the availability check uses the full amount.
+        var lines = new List<Order>();
+        foreach (Order order in orders)
+        {
+            Order existing = lines.Find(line => line.plant == order.plant);
+            if (existing == null) lines.Add(new Order(order.plant, order.quantity));
+            else existing.quantity += order.quantity;
+        }
+        orders = lines;
+        IngredientSlot[] slots = HGL.GetComponentsInChildren<IngredientSlot>(true);
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].gameObject.SetActive(i < orders.Count);
+            if (i < orders.Count) slots[i].InitializeUI(orders[i].quantity, orders[i].plant.Icon);
+        }
+
+        nameTxt.text = recipeName;
+        priceTxt.text = outputPlant != null ? "$" + outputPlant.SellPrice : "-";
+        if (outputPlant == null) btn.interactable = false;
     }
 
     private void Update()
     {
-        if (isBaking)
-        {
-            timer -= speed*Time.deltaTime;
-
-            if (timer < 0){
-                Bake();
-            }       
-        }
+        if (!isBaking) return;
+        timer -= Time.deltaTime;
+        if (timer <= 0) Bake();
     }
 
     public void CheckRecipe()
-    {  
-        for(int i = 0; i < orders.Count; i++)
-        {      
-            if(fm.GetAmount(orders[i].plant) < orders[i].quantity)
-            {
-                Debug.Log("noFire");
-                return;                
-            }
-        }
-
+    {
+        if (isBaking || outputPlant == null || orders.Count == 0) return;
+        foreach (Order order in orders)
+            if (order.plant == null || order.quantity <= 0 || fm.GetAmount(order.plant) < order.quantity) return;
+        isBaking = true;
+        foreach (Order order in orders) fm.TryRemovePlant(order.plant, order.quantity);
         btnTxt.text = "Baking";
-        var tempColor = bkg.color;
-        tempColor.a = 0.15f;  
-        bkg.color = tempColor;  
-        btn.interactable = false;  
-        RemovePlants();        
+        Color color = bkg.color;
+        color.a = 0.15f;
+        bkg.color = color;
+        btn.interactable = false;
     }
 
     public void RemovePlants()
-    { 
-       for(int i = 0; i < orders.Count; i++)
-        {
-            //Debug.Log("Sold " + orders[i].quantity + " - "+ orders[i].plant.PlantName);
-            fm.RemovePlant(orders[i].plant, orders[i].quantity);
-        }  
-
-        isBaking = true;    
+    {
+        CheckRecipe();
     }
 
     public void Bake()
-    { 
+    {
+        if (!isBaking || outputPlant == null) return;
         isBaking = false;
         timer = bakeTime;
         btnTxt.text = "Bake";
-        var tempColor = bkg.color;
-        tempColor.a = 0f;  
-        bkg.color = tempColor;
+        Color color = bkg.color;
+        color.a = 0f;
+        bkg.color = color;
         btn.interactable = true;
-
-        //TODO fm.AddPlant(new Plant(recipeName,price,orders[0].plant.Icon),1);
-    }
-
-    void InitializeUI()
-    {
-        //Transform HGL = transform.Find("HGL");
-
-        for(int i = 0; i < orders.Count; i++)
-        {
-            //Add order objects 
-            //RecipeObj newR = Instantiate(recipeObj, transform).GetComponent<RecipeObj>();
-            //newR.transform.SetParent(HGL);
-            HGL.GetChild(i).gameObject.GetComponent<RecipeObj>().InitializeUI(orders[i].quantity,orders[i].plant.Icon);
-            //newR.InitializeUI(orders[i].quantity,orders[i].plant.Icon);
-            
-            //Initialize New Recipe
-            price += (orders[i].plant.SellPrice * orders[i].quantity);
-            //nameTxt.text = recipeName;
-            //quantityTxt[i].text = "" + orders[i].orderQuantity;
-            //icon[i].sprite = orders[i].orderPlant.Icon;
-        }
-
-        nameTxt.text = recipeName;
-        priceTxt.text = "$" + price;
-
+        fm.AddPlant(outputPlant, 1);
     }
 }

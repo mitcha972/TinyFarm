@@ -14,11 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: Soup
   orders:
-  - plant:
-      plantName: Corn
-      sellPrice: 5
-      quantity: 1
-      icon: {fileID: -8344284950600746447, guid: 9afa7f5ada2d60d4c9f208042ee8ddd4, type: 3}
+  - plant: {fileID: 11400000, guid: 20d9cc3c1edf08c4f8dc6f92f061d10a, type: 2}
     quantity: 1
+  outputPlant: {fileID: 11400000, guid: 10b26d563dc14e0584ea19ce805673de, type: 2}
   bakeTime: 5
   icon: {fileID: -1322868838983756743, guid: 9afa7f5ada2d60d4c9f208042ee8ddd4, type: 3}
